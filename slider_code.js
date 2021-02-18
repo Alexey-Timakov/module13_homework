@@ -46,11 +46,25 @@ function initSlider(options) {
 
     function initImages() {
         images.forEach(function(item, index) {
-            let imageDiv = `<div class="image n${index} ${index == 0 ? "active":""}"
-            style="background-image: url(${images[index].url})"
-            data-index="${index}"></div>`;
-            sliderImages.innerHTML += imageDiv;
+            if (index !=1 && index != images.length - 1){
+                let imageDiv = `<div class="image n${index} ${index == 0 ? "active":""}"
+                style="background-image: url(${images[index].url})"
+                data-index="${index}"></div>`;
+                sliderImages.innerHTML += imageDiv;
+            }
         })
+        
+        let imageDivLeft = `<div class="image n${images.length - 1} shadowed-left" 
+        style="background-image: url(${images[images.length - 1].url})"
+        data-index="${images.length - 1}"></div>`
+
+        let imageDivRight = `<div class="image n${1} shadowed-right"
+        style="background-image: url(${images[1].url})"
+        data-index="${1}"></div>`
+    
+        sliderImages.innerHTML += imageDivLeft;
+        sliderImages.innerHTML += imageDivRight;
+
     }
     
     function initArrows() {
@@ -108,7 +122,16 @@ function initSlider(options) {
 
     function moveSlider(number) {
         sliderImages.querySelector(".active").classList.remove("active");
+        sliderImages.querySelector(".shadowed-left").classList.remove("shadowed-left");
+        sliderImages.querySelector(".shadowed-right").classList.remove("shadowed-right");
+
         sliderImages.querySelector(".n" + number).classList.add("active");
+
+        let additionalNumber1 = (number === 0) ? images.length - 1 : number - 1;
+        sliderImages.querySelector(".n" + additionalNumber1).classList.add("shadowed-left")
+
+        let additionalNumber2 = (number === images.length - 1) ? 0 : number + 1;
+        sliderImages.querySelector(".n" + additionalNumber2).classList.add("shadowed-right")
 
         sliderDots.querySelector(".active").classList.remove("active");
         sliderDots.querySelector(".n" + number).classList.add("active");
@@ -127,7 +150,7 @@ let options = {
     dots: true,
     titles: true,
     cropTitlesLenght: 25,
-    autoplay: true,
+    autoplay: false,
     autoplayInterval: 2000
 }
 

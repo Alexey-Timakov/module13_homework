@@ -10,8 +10,9 @@ main {
   
   .slider__images {
     position: relative;
-    width: 500px;
+    width: 700px;
     height: 350px;
+    background-color: black;
   }
   
   .slider__images-title {
@@ -27,12 +28,12 @@ main {
   }
   
   .slider__images .image {
-    background-size: cover;
+    background-size: contain;
     background-position: center center;
-    width: 100%;
+    width: 50%;
     height: 100%;
     position: absolute;
-    left: 0;
+    left: 25%;
     top: 0;
     opacity: 0;
     transition: opacity 800ms ease;
@@ -42,6 +43,16 @@ main {
     opacity: 1;
   }
   
+  .slider__images .image.shadowed-left {
+    opacity: 0.5;
+    left: 0%;
+    width: 25%;
+  }
+  .slider__images .image.shadowed-right {
+    opacity: 0.5;
+    left: 75%;
+    width: 25%;
+  }
   .slider__arrows {
     position: absolute;
     top: 0;
