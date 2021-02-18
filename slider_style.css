@@ -111,3 +111,10 @@ main {
   .slider__dots-item:hover, .slider__dots-item.active {
     background: #000;
   }
+  .button {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: -50px;
+    width: 100%;
+  }

@@ -138,12 +138,26 @@ function initSlider(options) {
     }
 
     function initAutoPlay () {
-        setInterval(function() {
+        intervalId = setInterval(function() {
             let curNumber = +sliderImages.querySelector(".active").dataset.index;
             let nextNumber = (curNumber === images.length - 1) ? 0 : curNumber + 1;
             moveSlider (nextNumber);
         }, options.autoplayInterval)
     }
+    
+    let button = document.querySelector(".button");
+    button.addEventListener("click", function(){
+        if (!options.autoplay) {
+            initAutoPlay();
+            options.autoplay = true;
+            button.innerHTML = "<button>Autoplay is ON</button>";
+        } else {
+            clearInterval(intervalId);
+            options.autoplay = false;
+            button.innerHTML = "<button>Autoplay is OFF</button>"
+        };
+        
+    });
 }
 
 let options = {
