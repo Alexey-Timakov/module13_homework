@@ -79,7 +79,6 @@ function initSlider(options) {
                     nextNumber = (curNumber === images.length - 1) ? 0 : curNumber + 1;
                 }
                 moveSlider(nextNumber);
-                changeTitle(nextNumber);
             })
         })
     }
@@ -90,12 +89,17 @@ function initSlider(options) {
             data-index="${index}"></div>`;
             sliderDots.innerHTML += dot;
         })
+        sliderDots.querySelectorAll(".slider__dots-item").forEach(function(dot) {
+            dot.addEventListener("click", function() {
+                moveSlider(+this.dataset.index); // здесь унарный плюс, потому что почему-то параметр возвращает строку, в примере вебинара работало без этого
+            })
+        })
     }
 
     function initTitles() {
         let titleText;
         if (images[0].title) {
-            titleText = cropTitle(images[0].title, options.cropTitlesLenght) + "...";
+            titleText = cropTitle(images[0].title, options.cropTitlesLenght);
         } else {
             titleText = "Без названия";
         }
@@ -121,6 +125,7 @@ function initSlider(options) {
     }
 
     function moveSlider(number) {
+        // console.log(number, typeof(number));
         sliderImages.querySelector(".active").classList.remove("active");
         sliderImages.querySelector(".shadowed-left").classList.remove("shadowed-left");
         sliderImages.querySelector(".shadowed-right").classList.remove("shadowed-right");
@@ -128,13 +133,20 @@ function initSlider(options) {
         sliderImages.querySelector(".n" + number).classList.add("active");
 
         let additionalNumber1 = (number === 0) ? images.length - 1 : number - 1;
+        // console.log(additionalNumber1);
         sliderImages.querySelector(".n" + additionalNumber1).classList.add("shadowed-left")
 
         let additionalNumber2 = (number === images.length - 1) ? 0 : number + 1;
+        // console.log(additionalNumber2);
         sliderImages.querySelector(".n" + additionalNumber2).classList.add("shadowed-right")
 
-        sliderDots.querySelector(".active").classList.remove("active");
-        sliderDots.querySelector(".n" + number).classList.add("active");
+        if (options.dots) {
+            sliderDots.querySelector(".active").classList.remove("active");
+            sliderDots.querySelector(".n" + number).classList.add("active");    
+        }
+        if (options.titles) {
+            changeTitle (number);
+        }
     }
 
     function initAutoPlay () {
